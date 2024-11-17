@@ -83,7 +83,7 @@ namespace PowerPoint.AddIn
 
                         // Get the left edge (x) and calculate corresponding y on the line
                         float x = shape.Left;
-                        float y = shape.Top;
+                        float y = shape.Top + shape.Height;
                         double xOnLine = y * Math.Tan(-angle);
                         double shift = shape.Left - xOnLine;
                         if (shift < minShift)
@@ -96,7 +96,7 @@ namespace PowerPoint.AddIn
 
                         // Get the left edge (x) and calculate corresponding y on the line
                         float x = shape.Left;
-                        float y = shape.Top;
+                        float y = shape.Top + shape.Height;
                         double xOnLine = y * Math.Tan(-angle) + minShift;
 
                         // Update shape's Top property to align it along the virtual line
