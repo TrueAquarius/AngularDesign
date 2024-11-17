@@ -88,8 +88,11 @@
             // 
             // buttonAlignLeft
             // 
+            this.buttonAlignLeft.Image = global::PowerPoint.AddIn.Properties.Resources.AlignLeftButton;
             this.buttonAlignLeft.Label = "Left";
             this.buttonAlignLeft.Name = "buttonAlignLeft";
+            this.buttonAlignLeft.ShowImage = true;
+            this.buttonAlignLeft.ShowLabel = false;
             this.buttonAlignLeft.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonAlignLeft_Click);
             // 
             // AngularDesignRibbon
