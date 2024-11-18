@@ -64,10 +64,26 @@ namespace PowerPoint.AddIn
 
         private void buttonAlignLeft_Click(object sender, RibbonControlEventArgs e)
         {
+            AlignSelectedShapes(AngularAlignment.LEFT);
+        }
+
+        private void buttonAlignRight_Click(object sender, RibbonControlEventArgs e)
+        {
+            AlignSelectedShapes(AngularAlignment.RIGHT);
+        }
+
+        private void buttonAlignCenter_Click(object sender, RibbonControlEventArgs e)
+        {
+            AlignSelectedShapes(AngularAlignment.CENTER);
+        }
+
+
+        private void AlignSelectedShapes(AngularAlignment alignment)
+        {
             try
             {
                 double angle = double.Parse(editBoxAngle.Text) * Math.PI / 180;
-                
+
                 // Get the current selection in PowerPoint
                 PPT.Selection selection = Globals.ThisAddIn.Application.ActiveWindow.Selection;
 
@@ -75,19 +91,27 @@ namespace PowerPoint.AddIn
                 {
                     PPT.ShapeRange selectedShapes = selection.ShapeRange;
 
-                    double minShift = double.MaxValue;
+                    double minShiftLeft = double.MaxValue;
+                    double maxShiftRight = double.MinValue;
 
                     // Iterate through the selected shapes
                     foreach (PPT.Shape shape in selectedShapes)
                     {
 
                         // Get the left edge (x) and calculate corresponding y on the line
-                        float x = shape.Left;
-                        float y = shape.Top + shape.Height;
-                        double xOnLine = y * Math.Tan(-angle);
-                        double shift = shape.Left - xOnLine;
-                        if (shift < minShift)
-                            minShift = shift;
+                        float left = shape.Left;
+                        float right = shape.Left + shape.Width;
+                        float bottom = shape.Top + shape.Height;
+                        float top = shape.Top;
+
+                        double bottomBaseLine = bottom * Math.Tan(-angle);
+                        double shiftLeft = left - bottomBaseLine;
+
+                        double topBaseLine = top * Math.Tan(-angle);
+                        double shiftRight = right - topBaseLine;
+
+                        minShiftLeft = Math.Min(minShiftLeft, shiftLeft);
+                        maxShiftRight = Math.Max(maxShiftRight, shiftRight);
                     }
 
                     // Iterate through the selected shapes
@@ -95,33 +119,47 @@ namespace PowerPoint.AddIn
                     {
 
                         // Get the left edge (x) and calculate corresponding y on the line
-                        float x = shape.Left;
-                        float y = shape.Top + shape.Height;
-                        double xOnLine = y * Math.Tan(-angle) + minShift;
+                        float left = shape.Left;
+                        float right = shape.Left + shape.Width;
+                        float bottom = shape.Top + shape.Height;
+                        float top = shape.Top;
+
+                        double targetLine = 0;
+                        switch (alignment)
+                        {
+                            case AngularAlignment.LEFT:
+                                targetLine = bottom * Math.Tan(-angle) + minShiftLeft;
+                                break;
+                            case AngularAlignment.CENTER:
+                                targetLine = bottom * Math.Tan(-angle) + minShiftLeft - maxShiftRight;
+                                break;
+                            case AngularAlignment.RIGHT:
+                                targetLine = top * Math.Tan(-angle) + maxShiftRight - shape.Width;
+                                break;
+                        }
+                        
 
                         // Update shape's Top property to align it along the virtual line
-                        shape.Left = (float)xOnLine;
-
-                        // Optionally align the shape's left edge to the line
-                        // Uncomment the following line if needed:
-                        // shape.Left = (float)((shape.Top - yIntercept) / slope);
-
+                        shape.Left = (float)targetLine;
                     }
-                }
-                else if (selection.Type == PPT.PpSelectionType.ppSelectionSlides)
-                {
-                    //System.Windows.Forms.MessageBox.Show("Slides are selected, not shapes.");
-                }
-                else
-                {
-                    //System.Windows.Forms.MessageBox.Show("No shapes or slides are selected.");
                 }
             }
             catch (Exception ex)
             {
                 System.Windows.Forms.MessageBox.Show($"Error: {ex.Message}");
             }
+        }
+
+        private void buttonStretch_Click(object sender, RibbonControlEventArgs e)
+        {
 
         }
+    }
+
+    public enum AngularAlignment
+    {
+        LEFT,
+        RIGHT,
+        CENTER
     }
 }

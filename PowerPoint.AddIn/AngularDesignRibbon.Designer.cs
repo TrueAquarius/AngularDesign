@@ -41,6 +41,9 @@
             this.buttonShapeSlope = this.Factory.CreateRibbonButton();
             this.groupAlignment = this.Factory.CreateRibbonGroup();
             this.buttonAlignLeft = this.Factory.CreateRibbonButton();
+            this.buttonAlignRight = this.Factory.CreateRibbonButton();
+            this.buttonAlignCenter = this.Factory.CreateRibbonButton();
+            this.buttonStretch = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.groupAngleSetup.SuspendLayout();
             this.group1.SuspendLayout();
@@ -76,24 +79,55 @@
             // 
             // buttonShapeSlope
             // 
+            this.buttonShapeSlope.Description = "Apply the given angle to the slope of the shapes";
             this.buttonShapeSlope.Label = "Shape Slope";
             this.buttonShapeSlope.Name = "buttonShapeSlope";
+            this.buttonShapeSlope.SuperTip = "Apply the given angle to the slope of the shapes";
             this.buttonShapeSlope.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button2_Click);
             // 
             // groupAlignment
             // 
             this.groupAlignment.Items.Add(this.buttonAlignLeft);
+            this.groupAlignment.Items.Add(this.buttonAlignRight);
+            this.groupAlignment.Items.Add(this.buttonAlignCenter);
+            this.groupAlignment.Items.Add(this.buttonStretch);
             this.groupAlignment.Label = "Alignment";
             this.groupAlignment.Name = "groupAlignment";
             // 
             // buttonAlignLeft
             // 
+            this.buttonAlignLeft.Description = "Align left along a slope with given angle";
             this.buttonAlignLeft.Image = global::PowerPoint.AddIn.Properties.Resources.AlignLeftButton;
             this.buttonAlignLeft.Label = "Left";
             this.buttonAlignLeft.Name = "buttonAlignLeft";
             this.buttonAlignLeft.ShowImage = true;
             this.buttonAlignLeft.ShowLabel = false;
+            this.buttonAlignLeft.SuperTip = "Align left along a slope with given angle";
             this.buttonAlignLeft.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonAlignLeft_Click);
+            // 
+            // buttonAlignRight
+            // 
+            this.buttonAlignRight.Description = "Align right along a slope with given angle";
+            this.buttonAlignRight.Label = "Right";
+            this.buttonAlignRight.Name = "buttonAlignRight";
+            this.buttonAlignRight.SuperTip = "Align right along a slope with given angle";
+            this.buttonAlignRight.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonAlignRight_Click);
+            // 
+            // buttonAlignCenter
+            // 
+            this.buttonAlignCenter.Description = "Align centered along a slope with given angle";
+            this.buttonAlignCenter.Label = "Center";
+            this.buttonAlignCenter.Name = "buttonAlignCenter";
+            this.buttonAlignCenter.SuperTip = "Align centered along a slope with given angle";
+            this.buttonAlignCenter.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonAlignCenter_Click);
+            // 
+            // buttonStretch
+            // 
+            this.buttonStretch.Description = "Stretch all selected shapes to equal length.";
+            this.buttonStretch.Label = "Stretch";
+            this.buttonStretch.Name = "buttonStretch";
+            this.buttonStretch.SuperTip = "Stretch all selected shapes to equal length.";
+            this.buttonStretch.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonStretch_Click);
             // 
             // AngularDesignRibbon
             // 
@@ -122,6 +156,9 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonShapeSlope;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupAlignment;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonAlignLeft;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonAlignRight;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonAlignCenter;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonStretch;
     }
 
     partial class ThisRibbonCollection
