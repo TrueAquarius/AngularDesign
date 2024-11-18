@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using PPT = Microsoft.Office.Interop.PowerPoint;
 using Office = Microsoft.Office.Core;
+using System.Runtime.InteropServices;
 
 namespace PowerPoint.AddIn
 {
@@ -93,16 +94,20 @@ namespace PowerPoint.AddIn
 
                     double minShiftLeft = double.MaxValue;
                     double maxShiftRight = double.MinValue;
+                    double sumShiftCenter = 0;
 
+                    int i = 0;
                     // Iterate through the selected shapes
                     foreach (PPT.Shape shape in selectedShapes)
                     {
-
+                        ++i;
                         // Get the left edge (x) and calculate corresponding y on the line
                         float left = shape.Left;
                         float right = shape.Left + shape.Width;
                         float bottom = shape.Top + shape.Height;
                         float top = shape.Top;
+                        float center = (top + bottom) / 2;
+                        float middle = (left + right) / 2;
 
                         double bottomBaseLine = bottom * Math.Tan(-angle);
                         double shiftLeft = left - bottomBaseLine;
@@ -110,9 +115,15 @@ namespace PowerPoint.AddIn
                         double topBaseLine = top * Math.Tan(-angle);
                         double shiftRight = right - topBaseLine;
 
+                        double centerBaseLine = center * Math.Tan(-angle);
+                        double shiftCenter = middle - centerBaseLine;
+
                         minShiftLeft = Math.Min(minShiftLeft, shiftLeft);
                         maxShiftRight = Math.Max(maxShiftRight, shiftRight);
+                        sumShiftCenter += shiftCenter;
                     }
+
+                    sumShiftCenter /= i;
 
                     // Iterate through the selected shapes
                     foreach (PPT.Shape shape in selectedShapes)
@@ -123,6 +134,8 @@ namespace PowerPoint.AddIn
                         float right = shape.Left + shape.Width;
                         float bottom = shape.Top + shape.Height;
                         float top = shape.Top;
+                        float center = (top + bottom) / 2;
+                        float middle = (left + right) / 2;
 
                         double targetLine = 0;
                         switch (alignment)
@@ -131,7 +144,7 @@ namespace PowerPoint.AddIn
                                 targetLine = bottom * Math.Tan(-angle) + minShiftLeft;
                                 break;
                             case AngularAlignment.CENTER:
-                                targetLine = bottom * Math.Tan(-angle) + minShiftLeft - maxShiftRight;
+                                targetLine = center * Math.Tan(-angle) + sumShiftCenter - shape.Width/2;
                                 break;
                             case AngularAlignment.RIGHT:
                                 targetLine = top * Math.Tan(-angle) + maxShiftRight - shape.Width;
@@ -152,7 +165,7 @@ namespace PowerPoint.AddIn
 
         private void buttonStretch_Click(object sender, RibbonControlEventArgs e)
         {
-
+            AlignSelectedShapes(AngularAlignment.CENTER);
         }
     }
 
