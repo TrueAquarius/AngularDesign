@@ -33,17 +33,17 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>Veröffentlichen\</PublishUrl>
     <InstallUrl />
-    <TargetCulture>de</TargetCulture>
+    <TargetCulture>en</TargetCulture>
     <ApplicationVersion>1.0.0.4</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
-    <ProductName>PowerPoint.AddIn</ProductName>
+    <ProductName>Angular Design</ProductName>
     <PublisherName />
-    <SupportUrl />
-    <FriendlyName>PowerPoint.AddIn</FriendlyName>
-    <OfficeApplicationDescription />
+    <SupportUrl>https://github.com/TrueAquarius</SupportUrl>
+    <FriendlyName>Angular Design</FriendlyName>
+    <OfficeApplicationDescription>PowerPoint Add-In for Angular Designs. Please find more information on https://github.com/TrueAquarius. License: MIT.</OfficeApplicationDescription>
     <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>
   <ItemGroup>
@@ -246,10 +246,6 @@
       <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="AlignLeftButton.png" />
-    <None Include="Resources\AlignLeftButton.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

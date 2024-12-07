@@ -6,12 +6,12 @@ using System.Security;
 // Allgemeine Informationen über eine Assembly werden über folgende 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
-[assembly: AssemblyTitle("PowerPoint.AddIn")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Angular Design")]
+[assembly: AssemblyDescription("PowerPoint Add-In for Angular Designs. Please find more information on https://github.com/TrueAquarius.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("HP")]
-[assembly: AssemblyProduct("PowerPoint.AddIn")]
-[assembly: AssemblyCopyright("Copyright © HP 2024")]
+[assembly: AssemblyCompany("TrueAquarius")]
+[assembly: AssemblyProduct("AngularDesign")]
+[assembly: AssemblyCopyright("Copyright © TrueAquarius 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
