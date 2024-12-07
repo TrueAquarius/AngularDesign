@@ -38,7 +38,7 @@
             this.groupAngleSetup = this.Factory.CreateRibbonGroup();
             this.editBoxAngle = this.Factory.CreateRibbonEditBox();
             this.group1 = this.Factory.CreateRibbonGroup();
-            this.buttonShapeSlope = this.Factory.CreateRibbonButton();
+            this.buttonApply = this.Factory.CreateRibbonButton();
             this.groupAlignment = this.Factory.CreateRibbonGroup();
             this.buttonAlignLeft = this.Factory.CreateRibbonButton();
             this.buttonAlignRight = this.Factory.CreateRibbonButton();
@@ -69,21 +69,21 @@
             // 
             this.editBoxAngle.Label = "Angle";
             this.editBoxAngle.Name = "editBoxAngle";
-            this.editBoxAngle.Text = "20";
+            this.editBoxAngle.Text = "10";
             // 
             // group1
             // 
-            this.group1.Items.Add(this.buttonShapeSlope);
+            this.group1.Items.Add(this.buttonApply);
             this.group1.Label = "Shape";
             this.group1.Name = "group1";
             // 
-            // buttonShapeSlope
+            // buttonApply
             // 
-            this.buttonShapeSlope.Description = "Apply the given angle to the slope of the shapes";
-            this.buttonShapeSlope.Label = "Shape Slope";
-            this.buttonShapeSlope.Name = "buttonShapeSlope";
-            this.buttonShapeSlope.SuperTip = "Apply the given angle to the slope of the shapes";
-            this.buttonShapeSlope.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button2_Click);
+            this.buttonApply.Description = "Apply the given angle to the slope of the shapes";
+            this.buttonApply.Label = "Apply angle to shape";
+            this.buttonApply.Name = "buttonApply";
+            this.buttonApply.SuperTip = "Apply the given angle to the slope of the shapes";
+            this.buttonApply.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonApply_Click);
             // 
             // groupAlignment
             // 
@@ -97,11 +97,8 @@
             // buttonAlignLeft
             // 
             this.buttonAlignLeft.Description = "Align left along a slope with given angle";
-            this.buttonAlignLeft.Image = global::PowerPoint.AddIn.Properties.Resources.AlignLeftButton;
             this.buttonAlignLeft.Label = "Left";
             this.buttonAlignLeft.Name = "buttonAlignLeft";
-            this.buttonAlignLeft.ShowImage = true;
-            this.buttonAlignLeft.ShowLabel = false;
             this.buttonAlignLeft.SuperTip = "Align left along a slope with given angle";
             this.buttonAlignLeft.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonAlignLeft_Click);
             // 
@@ -153,7 +150,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupAngleSetup;
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox editBoxAngle;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonShapeSlope;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonApply;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupAlignment;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonAlignLeft;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonAlignRight;

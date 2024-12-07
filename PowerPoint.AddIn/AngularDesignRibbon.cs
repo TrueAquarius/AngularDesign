@@ -6,6 +6,7 @@ using System.Text;
 using PPT = Microsoft.Office.Interop.PowerPoint;
 using Office = Microsoft.Office.Core;
 using System.Runtime.InteropServices;
+using Microsoft.Office.Interop.PowerPoint;
 
 namespace PowerPoint.AddIn
 {
@@ -16,77 +17,89 @@ namespace PowerPoint.AddIn
 
         }
 
-        private void button2_Click(object sender, RibbonControlEventArgs e)
+        /// <summary>
+        /// Event handler for button "Apply"
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event Arguents</param>
+        private void buttonApply_Click(object sender, RibbonControlEventArgs e)
         {
             try
             {
-                double angle = double.Parse(editBoxAngle.Text) * Math.PI / 180;
-                // Get the current selection in PowerPoint
-                PPT.Selection selection = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+                // Read the angle from input box
+                float angle = (float)(double.Parse(editBoxAngle.Text) * Math.PI / 180);
 
-                if (selection.Type == PPT.PpSelectionType.ppSelectionShapes)
-                {
-                    PPT.ShapeRange selectedShapes = selection.ShapeRange;
+                // Apply angle to selected shapes 
+                ApplyAngle(Globals.ThisAddIn.Application.ActiveWindow.Selection, angle);
 
-                    // Iterate through the selected shapes
-                    foreach (PPT.Shape shape in selectedShapes)
-                    {
-                        if (shape.AutoShapeType == Office.MsoAutoShapeType.msoShapeParallelogram)
-                        {
-                            // Set the slope angle to 77 degrees
-                            // The Adjustments[1] range for parallelograms is typically 0 to 1
-                            // A value of 0.5 corresponds to no slope. Adjustments vary slightly across versions, test and fine-tune.
-                            //double desiredAngleInRadians = -77 * Math.PI / 180; // Convert degrees to radians
-                            double desiredAdjustmentValue = Math.Tan(angle); // Approximate slope
-                            shape.Adjustments[1] = (float)desiredAdjustmentValue; // Adjustments[1] expects a float
-
-                            //System.Windows.Forms.MessageBox.Show($"Adjusted Parallelogram: {shape.Name}");
-                        }
-                        else
-                        {
-                            //System.Windows.Forms.MessageBox.Show($"Skipped non-parallelogram shape: {shape.Name}");
-                        }
-                    }
-                }
-                else if (selection.Type == PPT.PpSelectionType.ppSelectionSlides)
-                {
-                    //System.Windows.Forms.MessageBox.Show("Slides are selected, not shapes.");
-                }
-                else
-                {
-                    //System.Windows.Forms.MessageBox.Show("No shapes or slides are selected.");
-                }
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show($"Error: {ex.Message}");
+                System.Windows.Forms.MessageBox.Show($"An error has occured in Plug-In 'Angular Design': {ex.Message}");
             }
         }
 
+
+        /// <summary>
+        /// Event handler for button "Align Left"
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event Arguents</param>
         private void buttonAlignLeft_Click(object sender, RibbonControlEventArgs e)
         {
             AlignSelectedShapes(AngularAlignment.LEFT);
         }
 
+
+        /// <summary>
+        /// Event handler for button "Align Right"
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event Arguents</param>
         private void buttonAlignRight_Click(object sender, RibbonControlEventArgs e)
         {
             AlignSelectedShapes(AngularAlignment.RIGHT);
         }
 
+        /// <summary>
+        /// Event handler for button "Align Center"
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event Arguents</param>
         private void buttonAlignCenter_Click(object sender, RibbonControlEventArgs e)
         {
             AlignSelectedShapes(AngularAlignment.CENTER);
         }
 
+        /// <summary>
+        /// Event handler for button "Align Stretch"
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event Arguents</param>
+        private void buttonStretch_Click(object sender, RibbonControlEventArgs e)
+        {
+            AlignSelectedShapes(AngularAlignment.STRETCH);
+        }
 
+
+        
+
+        /// <summary>
+        /// Aligns selected shapes as specified.
+        /// </summary>
+        /// <param name="alignment">Target alignmant</param>
         private void AlignSelectedShapes(AngularAlignment alignment)
         {
             try
             {
-                double angle = double.Parse(editBoxAngle.Text) * Math.PI / 180;
-
                 // Get the current selection in PowerPoint
                 PPT.Selection selection = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+
+                // Read the angle from input box
+                float angle = (float)(double.Parse(editBoxAngle.Text) * Math.PI / 180);
+
+                // Apply angle to selected shapes 
+                ApplyAngle(selection, angle);
 
                 if (selection.Type == PPT.PpSelectionType.ppSelectionShapes)
                 {
@@ -95,12 +108,14 @@ namespace PowerPoint.AddIn
                     double minShiftLeft = double.MaxValue;
                     double maxShiftRight = double.MinValue;
                     double sumShiftCenter = 0;
+                    float maxWidth = 0;
 
                     int i = 0;
-                    // Iterate through the selected shapes
+                    // Iterate through the selected shapes in order to determine maxima and minima
                     foreach (PPT.Shape shape in selectedShapes)
                     {
                         ++i;
+
                         // Get the left edge (x) and calculate corresponding y on the line
                         float left = shape.Left;
                         float right = shape.Left + shape.Width;
@@ -121,14 +136,16 @@ namespace PowerPoint.AddIn
                         minShiftLeft = Math.Min(minShiftLeft, shiftLeft);
                         maxShiftRight = Math.Max(maxShiftRight, shiftRight);
                         sumShiftCenter += shiftCenter;
+
+                        float width =shape.Width - shape.Height * (float)Math.Tan(angle);
+                        maxWidth = Math.Max(maxWidth, width);
                     }
 
                     sumShiftCenter /= i;
 
-                    // Iterate through the selected shapes
+                    // Iterate through the selected shapes in order shift left or right or resize
                     foreach (PPT.Shape shape in selectedShapes)
                     {
-
                         // Get the left edge (x) and calculate corresponding y on the line
                         float left = shape.Left;
                         float right = shape.Left + shape.Width;
@@ -136,43 +153,102 @@ namespace PowerPoint.AddIn
                         float top = shape.Top;
                         float center = (top + bottom) / 2;
                         float middle = (left + right) / 2;
-
+                        float width = shape.Width - shape.Height * (float)Math.Tan(angle);
                         double targetLine = 0;
                         switch (alignment)
                         {
                             case AngularAlignment.LEFT:
                                 targetLine = bottom * Math.Tan(-angle) + minShiftLeft;
                                 break;
-                            case AngularAlignment.CENTER:
-                                targetLine = center * Math.Tan(-angle) + sumShiftCenter - shape.Width/2;
-                                break;
                             case AngularAlignment.RIGHT:
                                 targetLine = top * Math.Tan(-angle) + maxShiftRight - shape.Width;
                                 break;
+                            case AngularAlignment.CENTER:
+                                targetLine = center * Math.Tan(-angle) + sumShiftCenter - shape.Width / 2;
+                                break;
+                            case AngularAlignment.STRETCH:
+                                shape.Width = maxWidth + shape.Height * (float)Math.Tan(angle);
+                                targetLine = center * Math.Tan(-angle) + sumShiftCenter - shape.Width / 2;
+                                break;
                         }
-                        
 
-                        // Update shape's Top property to align it along the virtual line
+                        // Update shape's Left property to align it along the virtual line
                         shape.Left = (float)targetLine;
                     }
                 }
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show($"Error: {ex.Message}");
+                System.Windows.Forms.MessageBox.Show($"An error has occured in Plug-In 'Angular Design': {ex.Message}");
             }
         }
 
-        private void buttonStretch_Click(object sender, RibbonControlEventArgs e)
+
+
+        private void ApplyAngle(PPT.Selection selection, float angle)
         {
-            AlignSelectedShapes(AngularAlignment.CENTER);
+            try
+            {
+                if (selection.Type == PPT.PpSelectionType.ppSelectionShapes)
+                {
+                    PPT.ShapeRange selectedShapes = selection.ShapeRange;
+
+                    // Iterate through the selected shapes
+                    foreach (PPT.Shape shape in selectedShapes)
+                    {
+                        ApplyAngle(shape, angle);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show($"An error has occured in Plug-In 'Angular Design': {ex.Message}");
+            }
+        }
+
+
+
+        private void ApplyAngle(Shape shape, float angle)
+        {  
+            switch (shape.AutoShapeType)
+            {
+                case Office.MsoAutoShapeType.msoShapeParallelogram:
+                    shape.Adjustments[1] = angle;
+                    break;
+                default:      
+                    break;
+            }
+        }
+
+
+
+
+        private double GetAngle(Shape shape)
+        {
+            double angle = 0;
+
+            switch (shape.AutoShapeType)
+            {
+                case Office.MsoAutoShapeType.msoShapeParallelogram:
+                    angle = shape.Adjustments[1]; 
+                    break;
+                default:
+                    angle = 0;
+                    break;
+            }
+
+            return angle;
         }
     }
+
+
+
 
     public enum AngularAlignment
     {
         LEFT,
         RIGHT,
-        CENTER
+        CENTER,
+        STRETCH
     }
 }
