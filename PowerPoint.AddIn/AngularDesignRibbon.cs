@@ -17,6 +17,8 @@ namespace PowerPoint.AddIn
 
         }
 
+
+
         /// <summary>
         /// Event handler for button "Apply"
         /// </summary>
@@ -32,6 +34,41 @@ namespace PowerPoint.AddIn
                 // Apply angle to selected shapes 
                 ApplyAngle(Globals.ThisAddIn.Application.ActiveWindow.Selection, angle);
 
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show($"An error has occured in Plug-In 'Angular Design': {ex.Message}");
+            }
+        }
+
+
+
+        /// <summary>
+        /// Event handler for button "Pick angle"
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event Arguents</param>
+        private void buttonPick_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                // Get the current selection in PowerPoint
+                PPT.Selection selection = Globals.ThisAddIn.Application.ActiveWindow.Selection;
+
+                if (selection != null && selection.Type == PPT.PpSelectionType.ppSelectionShapes)
+                {
+                    PPT.ShapeRange selectedShapes = selection.ShapeRange;
+
+                    if (selectedShapes.Count > 0)
+                    {
+                        Shape shape = selectedShapes[1];
+
+                        float angle = GetAngle(shape);
+
+                        editBoxAngle.Text = Math.Round(angle * 180 / Math.PI, 1).ToString();
+
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -82,7 +119,9 @@ namespace PowerPoint.AddIn
         }
 
 
-        
+
+ 
+
 
         /// <summary>
         /// Aligns selected shapes as specified.
@@ -223,9 +262,9 @@ namespace PowerPoint.AddIn
 
 
 
-        private double GetAngle(Shape shape)
+        private float GetAngle(Shape shape)
         {
-            double angle = 0;
+            float angle = 0;
 
             switch (shape.AutoShapeType)
             {
@@ -239,6 +278,7 @@ namespace PowerPoint.AddIn
 
             return angle;
         }
+
     }
 
 

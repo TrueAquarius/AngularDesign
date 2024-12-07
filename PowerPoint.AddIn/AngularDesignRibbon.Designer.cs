@@ -44,6 +44,7 @@
             this.buttonAlignRight = this.Factory.CreateRibbonButton();
             this.buttonAlignCenter = this.Factory.CreateRibbonButton();
             this.buttonStretch = this.Factory.CreateRibbonButton();
+            this.buttonPick = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.groupAngleSetup.SuspendLayout();
             this.group1.SuspendLayout();
@@ -62,6 +63,7 @@
             // groupAngleSetup
             // 
             this.groupAngleSetup.Items.Add(this.editBoxAngle);
+            this.groupAngleSetup.Items.Add(this.buttonPick);
             this.groupAngleSetup.Label = "Angle Setup";
             this.groupAngleSetup.Name = "groupAngleSetup";
             // 
@@ -80,9 +82,9 @@
             // buttonApply
             // 
             this.buttonApply.Description = "Apply the given angle to the slope of the shapes";
-            this.buttonApply.Label = "Apply angle to shape";
+            this.buttonApply.Label = "Apply angle to shapes";
             this.buttonApply.Name = "buttonApply";
-            this.buttonApply.SuperTip = "Apply the given angle to the slope of the shapes";
+            this.buttonApply.SuperTip = "Apply the given angle to selected shapes";
             this.buttonApply.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonApply_Click);
             // 
             // groupAlignment
@@ -126,6 +128,15 @@
             this.buttonStretch.SuperTip = "Stretch all selected shapes to equal length.";
             this.buttonStretch.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonStretch_Click);
             // 
+            // buttonPick
+            // 
+            this.buttonPick.Description = "Pick angle from selected shape";
+            this.buttonPick.Label = "Pick angle";
+            this.buttonPick.Name = "buttonPick";
+            this.buttonPick.ScreenTip = "Pick angle from selected shape";
+            this.buttonPick.SuperTip = "Stretch all selected shapes to equal length.";
+            this.buttonPick.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonPick_Click);
+            // 
             // AngularDesignRibbon
             // 
             this.Name = "AngularDesignRibbon";
@@ -156,6 +167,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonAlignRight;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonAlignCenter;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonStretch;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonPick;
     }
 
     partial class ThisRibbonCollection
