@@ -34,16 +34,16 @@
     <PublishUrl>Veröffentlichen\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.1.5</ApplicationVersion>
+    <ApplicationVersion>1.0.2.8</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
     <ProductName>Angular Design</ProductName>
-    <PublisherName />
-    <SupportUrl>https://github.com/TrueAquarius</SupportUrl>
+    <PublisherName>Andreas Suwe</PublisherName>
+    <SupportUrl>https://github.com/TrueAquarius/AngularDesign</SupportUrl>
     <FriendlyName>Angular Design</FriendlyName>
-    <OfficeApplicationDescription>PowerPoint Add-In for Angular Designs. Please find more information on https://github.com/TrueAquarius. License: MIT.</OfficeApplicationDescription>
+    <OfficeApplicationDescription>PowerPoint Add-In for Angular Designs. Please find more information on https://github.com/TrueAquarius/AngularDesign. License: MIT.</OfficeApplicationDescription>
     <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>
   <ItemGroup>
@@ -227,7 +227,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="AngularDesign.AddIn.Key.pfx" />
+    <None Include="AngularDesign.Key.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -264,7 +264,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>AngularDesign.AddIn.Key.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>AngularDesign.Key.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <DelaySign>false</DelaySign>

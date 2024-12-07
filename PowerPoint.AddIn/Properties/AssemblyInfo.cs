@@ -7,7 +7,7 @@ using System.Security;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
 [assembly: AssemblyTitle("Angular Design")]
-[assembly: AssemblyDescription("PowerPoint Add-In for Angular Designs. Please find more information on https://github.com/TrueAquarius.")]
+[assembly: AssemblyDescription("PowerPoint Add-In for Angular Designs. Please find more information on https://github.com/TrueAquarius/AngularDesign.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TrueAquarius")]
 [assembly: AssemblyProduct("AngularDesign")]
