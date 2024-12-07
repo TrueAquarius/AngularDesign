@@ -1,0 +1,1 @@
+7z a -sfx -mx=9 Releases\AngularDesignInstaller.exe .\PowerPoint.AddIn\bin\Release\app.publish\*
