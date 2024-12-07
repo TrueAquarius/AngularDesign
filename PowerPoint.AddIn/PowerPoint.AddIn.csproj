@@ -228,7 +228,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="AngularDesign.AddIn.Key.pfx" />
-    <None Include="PowerPoint.AddIn_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
